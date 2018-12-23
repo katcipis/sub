@@ -50,7 +50,7 @@ if os.path.isfile(subname):
 filehash = subdb_hash(filename)
 
 print("file[{}] hash is[{}]".format(filename, filehash))
-subtitle = download_subtitle(filehash, ["en"])
+subtitle = download_subtitle(filehash, ["en", "pt"])
 if subtitle is None:
     exit(1)
 

@@ -37,10 +37,15 @@ def download_subtitle(filehash, langs):
 
 
 if len(sys.argv) <= 1:
-    print("usage: {} <video file>".format(sys.argv[0]))
+    print("usage: {} <video file> <lang>(optional,default=en)".format(sys.argv[0]))
     exit(1)
 
 filename = sys.argv[1]
+lang = "en"
+
+if len(sys.argv) >= 3:
+    lang = sys.argv[2]
+
 subname = get_subtitle_name(filename)
 
 if os.path.isfile(subname):
@@ -50,7 +55,9 @@ if os.path.isfile(subname):
 filehash = subdb_hash(filename)
 
 print("file[{}] hash is[{}]".format(filename, filehash))
-subtitle = download_subtitle(filehash, ["en", "pt"])
+print("searching for subtitle for lang[{}]".format(lang))
+
+subtitle = download_subtitle(filehash, [lang])
 if subtitle is None:
     exit(1)
 

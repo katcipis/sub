@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+from babelfish import Language
+from subliminal import download_best_subtitles, scan_videos
+
+if len(sys.argv) <= 1:
+    print("usage: {} <videos dir> <lang>(optional,default=en)".format(sys.argv[0]))
+    exit(1)
+
+videosdir = sys.argv[1]
+lang = "eng"
+
+if len(sys.argv) >= 3:
+    lang = sys.argv[2]
+
+videos = scan_videos(videosdir)
+subtitles = download_best_subtitles(videos, {Language(lang)})
+
+# save them to disk, next to the video
+for v in videos:
+    subs = subtitles[v]
+
+    if subs == []:
+        print(f"WARNING: no subtitle found for: {v.name}")
+
+    # TODO: perhaps better criteria to select when there is multiple subs ?
+    #       also need to use legendas.tv with success here
+    sub = subs[0]
+    subpath = os.path.splitext(v.name)[0] + ".srt"
+    with open(subpath, "w") as subfile:
+        subfile.write(sub.text)
+        print(f"created subtitle with success:{subpath}")

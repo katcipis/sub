@@ -25,6 +25,7 @@ for v in videos:
 
     if subs == []:
         print(f"WARNING: no subtitle found for: {v.name}")
+        continue
 
     # TODO: perhaps better criteria to select when there is multiple subs ?
     #       also need to use legendas.tv with success here
